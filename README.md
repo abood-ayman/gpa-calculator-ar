@@ -1,28 +1,27 @@
-# حاسبة المعدل التراكمي
+# GPA Calculator | حاسبة المعدل التراكمي
 
-GPA من 4 ونسبتك المئوية من درجاتك وساعاتك المعتمدة
+Calculate your cumulative GPA out of 4 and the equivalent percentage from your course grades and credit hours. Arabic interface.
 
-**رابط الأداة (تعمل فورًا من المتصفح):** https://abood-ayman.github.io/gpa-calculator-ar/
+**Live app:** https://abood-ayman.github.io/gpa-calculator-ar/
 
-## ما الذي تقدمه؟
+![GPA Calculator, mobile view](docs/screenshot.svg)
 
-- أدخل المواد والتقديرات (A إلى F) والساعات المعتمدة لكل مادة
-- المعدل التراكمي من 4 والنسبة المئوية المكافئة فورًا
-- أضف أو احذف مواد بحرية
-- تقدير الكلمة العامة (امتياز/جيد جدًا/جيد/مقبول) حسب المعدل
+This is a personal project, built with AI tools.
 
-## الخصوصية
+## Features
+- Enter courses, letter grades (A to F) and credit hours
+- Instant GPA out of 4 and equivalent percentage
+- Add or remove courses freely
+- Overall grade word (Excellent/Very Good/Good/Pass) from the GPA
 
-تعمل الأداة بالكامل داخل متصفحك (HTML/CSS/JavaScript فقط). لا يوجد خادم، ولا حسابات، ولا تتبّع، ولا تُرسل أو تُحفظ أي بيانات تدخلها خارج جهازك.
+## Privacy
+Everything runs in your browser. No data is stored or sent anywhere.
 
-## التقنية
+## Run locally
+Open `index.html` in any browser. It is a single static page with no dependencies.
 
-صفحة ثابتة واحدة بلا أي مكتبات خارجية، تعمل على الهاتف والحاسوب، وتُستضاف مجانًا عبر GitHub Pages.
+## Status
+Stable.
 
-## ملاحظة شفافية
-
-بُنيت هذه الأداة بمساعدة أدوات ذكاء اصطناعي، ورُوعيَت بساطتها وفائدتها المباشرة.
-
-## الرخصة
-
-MIT — انظر ملف LICENSE.
+## Copyright
+MIT License - Copyright (c) 2026 Abdullah Ayman.
