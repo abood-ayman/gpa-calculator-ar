@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>حاسبة المعدل التراكمي GPA والنسبة | أداة مجانية</title>
+<meta name="description" content="احسب معدلك التراكمي من 4 ونسبتك المئوية من درجات موادك وساعاتها المعتمدة. تضيف وتعدل المواد كما تشاء. دون إرسال أي بيانات.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Tahoma,'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#1e293b;line-height:1.7;min-height:100vh;display:flex;flex-direction:column}
+header{background:linear-gradient(135deg,#0f766e,#14b8a6);color:#fff;padding:1.6rem 1rem;text-align:center}
+header h1{font-size:1.5rem}
+.tagline{opacity:.92;font-size:.95rem;margin-top:.25rem}
+main{flex:1;width:100%;max-width:560px;margin:0 auto;padding:1rem}
+.card{background:#fff;border-radius:14px;padding:1.25rem;box-shadow:0 1px 4px rgba(15,23,42,.08);margin-bottom:1rem}
+.card h2{font-size:1.1rem;margin-bottom:.4rem;color:#0f766e}
+label{display:block;font-weight:700;margin:.75rem 0 .3rem}
+input,select,textarea{width:100%;padding:.7rem .8rem;border:1.5px solid #cbd5e1;border-radius:10px;font-size:1rem;font-family:inherit;background:#fff;color:#1e293b}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#0f766e;box-shadow:0 0 0 3px rgba(20,184,166,.18)}
+.row{display:flex;gap:.6rem}
+.row>*{flex:1;min-width:0}
+button{display:inline-block;width:100%;padding:.8rem;border:0;border-radius:10px;background:#0f766e;color:#fff;font-size:1.05rem;font-weight:700;cursor:pointer;font-family:inherit;margin-top:1rem}
+button:hover{background:#115e59}
+button.ghost{background:#e2e8f0;color:#1e293b}
+.result{background:#ecfdf5;border:1.5px solid #6ee7b7;border-radius:10px;padding:1rem;margin-top:1rem;font-size:1.05rem;word-break:break-word}
+.result b{color:#047857}
+.result.warn{background:#fffbeb;border-color:#fcd34d}
+.result.warn b{color:#b45309}
+.result.bad{background:#fef2f2;border-color:#fca5a5}
+.result.bad b{color:#b91c1c}
+.muted{color:#64748b;font-size:.85rem}
+footer{background:#0f172a;color:#94a3b8;text-align:center;padding:1.2rem 1rem;font-size:.85rem;line-height:1.9}
+footer a{color:#5eead4}
+table{width:100%;border-collapse:collapse;margin-top:.5rem}
+th,td{padding:.5rem;border-bottom:1px solid #e2e8f0;text-align:right;font-size:.95rem}
+.big{font-size:1.6rem;font-weight:800}
+.hidden{display:none}
+.chk{display:flex;align-items:center;gap:.5rem;margin:.3rem 0}
+.chk input{width:auto}
+
+</style>
+</head>
+<body>
+<header>
+<h1>حاسبة المعدل التراكمي</h1>
+<p class="tagline">GPA من 4 ونسبتك المئوية من درجاتك وساعاتك المعتمدة</p>
+</header>
+<main>
+<div class="card">
+<h2>موادك</h2>
+<div id="rows"></div>
+<button class="ghost" onclick="addRow()">+ أضف مادة</button>
+<button onclick="calc()">احسب المعدل</button>
+</div>
+<div id="out" class="result hidden"></div>
+
+</main>
+<footer>
+<p>تعمل هذه الأداة بالكامل على جهازك، ولا تُحفظ أو تُرسل أي بيانات إلى أي خادم.</p>
+<p>أداة مجانية مفتوحة المصدر · بُنيت بمساعدة أدوات ذكاء اصطناعي · <a href="https://github.com/abood-ayman/gpa-calculator-ar">الكود على GitHub</a></p>
+</footer>
+<script>
+window.__jserrors=[];window.addEventListener('error',function(e){window.__jserrors.push(String(e.message))});
+const g = id => document.getElementById(id);
+
+const GRADES = [['A', 4], ['B+', 3.5], ['B', 3], ['C+', 2.5], ['C', 2], ['D', 1], ['F', 0]];
+
+function gpa(rows) {
+  let pts = 0, hrs = 0;
+  for (const r of rows) {
+    if (r.hours > 0 && r.points != null) { pts += r.points * r.hours; hrs += r.hours; }
+  }
+  return hrs === 0 ? null : pts / hrs;
+}
+function pctOf4(v) { return v / 4 * 100; }
+function gradeWord(v) {
+  if (v >= 3.7) return 'امتياز';
+  if (v >= 3) return 'جيد جدًا';
+  if (v >= 2) return 'جيد';
+  if (v >= 1) return 'مقبول';
+  return 'ضعيف';
+}
+
+let rowCount = 0;
+function addRow(name, gradeIdx, hours) {
+  rowCount++;
+  const div = document.createElement('div');
+  div.className = 'row';
+  div.style.marginBottom = '.5rem';
+  div.innerHTML =
+    '<input type="text" placeholder="اسم المادة" value="' + (name || '') + '" class="subj">' +
+    '<select class="grade">' + GRADES.map((gr, i) => '<option value="' + gr[1] + '"' + (i === gradeIdx ? ' selected' : '') + '>' + gr[0] + '</option>').join('') + '</select>' +
+    '<input type="number" inputmode="numeric" min="0" max="20" placeholder="ساعات" value="' + (hours != null ? hours : '') + '" class="hours">' +
+    '<button class="ghost" style="width:auto;margin-top:0;padding:.6rem .8rem" onclick="this.parentElement.remove()">×</button>';
+  g('rows').appendChild(div);
+}
+
+function readRows() {
+  return [...g('rows').children].map(div => ({
+    points: parseFloat(div.querySelector('.grade').value),
+    hours: parseFloat(div.querySelector('.hours').value)
+  }));
+}
+
+function calc() {
+  const v = gpa(readRows());
+  const el = g('out');
+  el.classList.remove('hidden');
+  if (v == null) { el.innerHTML = '<p>أدخل مادة واحدة على الأقل مع ساعاتها.</p>'; return; }
+  el.innerHTML = '<p class="big">المعدل التراكمي: <b>' + v.toFixed(2) + ' من 4</b></p>' +
+                 '<p>النسبة المئوية: <b>' + pctOf4(v).toLocaleString('ar-EG', { maximumFractionDigits: 1 }) + '٪</b></p>' +
+                 '<p>التقدير العام: <b>' + gradeWord(v) + '</b></p>';
+}
+
+addRow('مادة أولى', 0, 3);
+addRow('مادة ثانية', 2, 3);
+
+window.__test = function () {
+  const v1 = gpa([{ points: 4, hours: 3 }, { points: 3, hours: 3 }]);
+  const v2 = gpa([{ points: 4, hours: 4 }, { points: 0, hours: 2 }, { points: 2, hours: 0 }]);
+  const v3 = gpa([]);
+  const ok = Math.abs(v1 - 3.5) < 0.001 && Math.abs(pctOf4(v1) - 87.5) < 0.01 &&
+             Math.abs(v2 - 8 / 3) < 0.001 && v3 === null &&
+             gradeWord(3.8) === 'امتياز' && gradeWord(2.2) === 'جيد';
+  return { pass: ok, details: { v1, v2 } };
+};
+
+window.__demo = function () { calc(); };
+
+</script>
+</body>
+</html>
