@@ -4,6 +4,8 @@ Calculate your cumulative GPA out of 4 and the equivalent percentage from your c
 
 **Live app:** https://abood-ayman.github.io/gpa-calculator-ar/
 
+**LinkedIn:** [Project entry](https://www.linkedin.com/in/abdullah-ayman-1678b737b/details/projects/)
+
 ![GPA Calculator, mobile view](docs/screenshot.svg)
 
 This is a personal project, built with AI tools.
